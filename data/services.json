@@ -1,0 +1,33 @@
+[
+  {
+    "title": "MAKIJAŻ PROFESJONALNY",
+    "img": "https://images.pexels.com/photos/3764013/pexels-photo-3764013.jpeg",
+    "description": "<p>Profesjonalny makijaż dopasowany do typu urody, okazji oraz indywidualnych preferencji klientki.</p><ul><li>Analiza kształtu twarzy i koloru skóry</li><li>Makijaż dzienny, wieczorowy i okolicznościowy</li><li>Makijaż ślubny z próbą</li><li>Kosmetyki klasy premium</li><li>Wysoka trwałość</li></ul><p>Efekt elegancki, świeży i idealny do fotografii.</p>"
+  },
+  {
+    "title": "ZABIEGI NA TWARZ",
+    "img": "https://images.pexels.com/photos/3985327/pexels-photo-3985327.jpeg",
+    "description": "<p>Kompleksowa pielęgnacja skóry twarzy oparta na indywidualnej diagnozie.</p><ul><li>Oczyszczanie manualne i enzymatyczne</li><li>Zabiegi nawilżające</li><li>Terapie anti-aging</li><li>Masaż twarzy</li><li>Relaksująca atmosfera</li></ul><p>Skóra staje się gładka, promienna i wypoczęta.</p>"
+  },
+  {
+    "title": "STYLIZACJA PAZNOKCI",
+    "img": "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg",
+    "description": "<p>Profesjonalna stylizacja paznokci dłoni i stóp.</p><ul><li>Manicure klasyczny i hybrydowy</li><li>Pedicure kosmetyczny</li><li>Utwardzanie płytki</li><li>Szeroka paleta kolorów</li><li>Sterylne narzędzia</li></ul><p>Trwały i estetyczny efekt.</p>"
+  },
+  {
+    "title": "STYLIZACJA BRWI",
+    "img": "https://images.pexels.com/photos/3993321/pexels-photo-3993321.jpeg",
+    "description": "<p>Stylizacja brwi podkreślająca rysy twarzy.</p><ul><li>Regulacja brwi</li><li>Henna klasyczna i pudrowa</li><li>Laminacja</li><li>Dobór idealnego kształtu</li><li>Naturalny efekt</li></ul><p>Brwi stają się wyraziste i symetryczne.</p>"
+  },
+  {
+    "title": "ZABIEGI NA CIAŁO",
+    "img": "https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg",
+    "description": "<p>Zabiegi pielęgnacyjne i relaksacyjne na ciało.</p><ul><li>Peelingi</li><li>Zabiegi ujędrniające</li><li>Nawilżanie</li><li>Rytuały relaksacyjne</li><li>Głęboki relaks</li></ul><p>Skóra jest miękka i odżywiona.</p>"
+  },
+  {
+    "title": "DEPILACJA",
+    "img": "https://images.pexels.com/photos/3985309/pexels-photo-3985309.jpeg",
+    "description": "<p>Skuteczna depilacja zapewniająca długotrwały efekt.</p><ul><li>Depilacja woskiem</li><li>Delikatne preparaty</li><li>Szybki zabieg</li><li>Minimalne podrażnienia</li><li>Komfort i higiena</li></ul><p>Idealnie gładka skóra.</p>"
+  }
+]
+

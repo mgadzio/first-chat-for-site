@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kącik Urody – Lublin</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --accent:#b58c7a;
+  --dark:#1f1f1f;
+  --light:#f5f3f1;
+  --light2:#efedeb;
+}
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Montserrat",sans-serif;color:var(--dark)}
+
+/* BACKGROUND */
+.hero-bg{
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+    url("https://images.pexels.com/photos/3738349/pexels-photo-3738349.jpeg");
+  background-size:cover;
+  background-position:center;
+  z-index:-1;
+}
+
+/* HEADER */
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:22px 6vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:100;
+  color:white;
+}
+.logo{font-weight:700;letter-spacing:4px}
+header nav a{
+  color:white;
+  margin-left:28px;
+  font-size:.8rem;
+  letter-spacing:2px;
+  text-decoration:none;
+}
+
+/* MOBILE MENU */
+.menu-toggle{display:none;font-size:26px;cursor:pointer}
+.mobile-menu{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:34px;
+  transform:translateY(-100%);
+  transition:.6s ease;
+  z-index:200;
+}
+.mobile-menu.open{transform:translateY(0)}
+.mobile-menu a{
+  color:white;
+  font-size:1.2rem;
+  letter-spacing:4px;
+  text-decoration:none;
+}
+
+/* SECTIONS */
+section{padding:70px 8vw}
+h2{
+  text-align:center;
+  font-weight:700;
+  letter-spacing:6px;
+  margin-bottom:40px;
+}
+
+/* HERO */
+.hero{height:100vh}
+
+/* ABOUT */
+.about{color:white;padding-top:120px}
+.about p{
+  max-width:720px;
+  margin:0 auto 40px;
+  text-align:center;
+  line-height:1.8;
+  font-size:.95rem;
+}
+
+/* GALLERY */
+.gallery-wrapper{position:relative}
+.gallery{
+  display:flex;
+  gap:24px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+}
+.gallery img{
+  width:420px;
+  height:260px;
+  object-fit:cover;
+  border-radius:16px;
+}
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,.4);
+  backdrop-filter:blur(6px);
+  color:white;
+  border:none;
+  border-radius:50%;
+  font-size:34px;
+  padding:6px 14px;
+  cursor:pointer;
+}
+.arrow.left{left:-10px}
+.arrow.right{right:-10px}
+
+/* SERVICES */
+.services-section{background:var(--light)}
+.services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:50px;
+}
+.service img{
+  width:100%;
+  height:240px;
+  border-radius:16px;
+  object-fit:cover;
+  margin-bottom:16px;
+}
+.service h3{
+  text-align:center;
+  letter-spacing:3px;
+  margin-bottom:10px;
+}
+.service p{
+  font-size:.85rem;
+  line-height:1.7;
+  text-align:justify;
+}
+
+/* PRICING */
+.pricing{background:var(--light2)}
+.price-header{
+  background:var(--accent);
+  color:white;
+  padding:30px;
+  text-align:center;
+  letter-spacing:6px;
+  font-weight:700;
+  margin-bottom:40px;
+}
+.price-tabs{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+  margin-bottom:30px;
+}
+.price-tabs button{
+  background:none;
+  border:none;
+  letter-spacing:2px;
+  cursor:pointer;
+}
+.price-tabs .active{color:var(--accent)}
+.price-content{display:none;max-width:560px;margin:auto}
+.price-content.active{display:block}
+.price-row{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid rgba(0,0,0,.12);
+  font-size:.85rem;
+}
+
+/* CONTACT */
+.contact{background:var(--light)}
+.contact-icons{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  font-size:24px;
+  margin-bottom:20px;
+}
+.contact-icons a{color:var(--accent)}
+.contact-info{text-align:center;font-size:.9rem}
+.map iframe{
+  width:100%;
+  height:260px;
+  border:0;
+  border-radius:12px;
+  margin-top:30px;
+}
+
+/* FOOTER */
+footer{text-align:center;padding:30px;font-size:.75rem}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(40px);transition:.8s ease}
+.reveal.active{opacity:1;transform:none}
+
+/* MOBILE */
+@media(max-width:900px){
+  header nav{display:none}
+  .menu-toggle{display:block}
+  .services{grid-template-columns:1fr}
+  .gallery img{width:85vw;height:220px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero-bg"></div>
+
+<header>
+  <div class="logo">KĄCIK URODY</div>
+  <nav>
+    <a href="#about">O SALONIE</a>
+    <a href="#services">USŁUGI</a>
+    <a href="#pricing">CENNIK</a>
+    <a href="#contact">KONTAKT</a>
+  </nav>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()">O SALONIE</a>
+  <a href="#services" onclick="toggleMenu()">USŁUGI</a>
+  <a href="#pricing" onclick="toggleMenu()">CENNIK</a>
+  <a href="#contact" onclick="toggleMenu()">KONTAKT</a>
+</div>
+
+<div class="hero"></div>
+
+<section id="about" class="about reveal">
+<h2>O SALONIE</h2>
+<p>Kącik Urody to miejsce stworzone z myślą o komforcie, relaksie oraz profesjonalnej pielęgnacji.</p>
+
+<div class="gallery-wrapper">
+<button class="arrow left" onclick="scrollGallery(-1)">‹</button>
+<div class="gallery" id="gallery">
+<img src="https://picsum.photos/600/400?1">
+<img src="https://picsum.photos/600/400?2">
+<img src="https://picsum.photos/600/400?3">
+<img src="https://picsum.photos/600/400?4">
+</div>
+<button class="arrow right" onclick="scrollGallery(1)">›</button>
+</div>
+</section>
+
+<section id="services" class="services-section reveal">
+<h2>USŁUGI</h2>
+<div class="services">
+
+<div class="service reveal">
+<img src="https://picsum.photos/500/350?manicure">
+<h3>MANICURE</h3>
+<p>Profesjonalny manicure wykonywany jest z najwyższą precyzją i dbałością o detale. Zabieg rozpoczyna się analizą stanu paznokci. Stosujemy wyłącznie wysokiej jakości produkty. Każdy etap odbywa się w sterylnych warunkach. Manicure poprawia estetykę dłoni. Efekt jest trwały i naturalny. Zabieg idealny na co dzień. Polecany również na specjalne okazje.</p>
+</div>
+
+<div class="service reveal">
+<img src="https://picsum.photos/500/350?pedicure">
+<h3>PEDICURE</h3>
+<p>Zabieg pedicure zapewnia komfort oraz zdrowy wygląd stóp. Rozpoczyna się dokładnym oczyszczeniem. Usuwane są zrogowacenia oraz niedoskonałości. Skóra staje się gładka i odżywiona. Zabieg poprawia krążenie. Przynosi uczucie lekkości. Idealny na każdą porę roku. Wykonywany w higienicznych warunkach.</p>
+</div>
+
+<div class="service reveal">
+<img src="https://picsum.photos/500/350?face">
+<h3>ZABIEGI NA TWARZ</h3>
+<p>Indywidualnie dobrane zabiegi pielęgnacyjne twarzy. Poprawiają kondycję skóry. Oczyszczają i regenerują. Działają przeciwstarzeniowo. Stosujemy sprawdzone kosmetyki. Efekty widoczne są natychmiast. Skóra staje się promienna. Zabiegi dostosowane do potrzeb klienta.</p>
+</div>
+
+<div class="service reveal">
+<img src="https://picsum.photos/500/350?massage">
+<h3>MASAŻE</h3>
+<p>Masaże relaksacyjne pozwalają odprężyć ciało i umysł. Redukują napięcie mięśniowe. Poprawiają krążenie. Wpływają korzystnie na samopoczucie. Zabiegi wykonywane są w spokojnej atmosferze. Aromatyczne olejki potęgują efekt. Idealne po ciężkim dniu. Pełen relaks i regeneracja.</p>
+</div>
+
+<div class="service reveal">
+<img src="https://picsum.photos/500/350?brows">
+<h3>STYLIZACJA BRWI</h3>
+<p>Stylizacja brwi podkreśla rysy twarzy. Kształt dobierany jest indywidualnie. Zabieg poprawia symetrię. Stosujemy bezpieczne metody. Efekt utrzymuje się długo. Brwi wyglądają naturalnie. Idealne dopełnienie makijażu. Zabieg szybki i komfortowy.</p>
+</div>
+
+<div class="service reveal">
+<img src="https://picsum.photos/500/350?makeup">
+<h3>MAKIJAŻ</h3>
+<p>Profesjonalny makijaż dopasowany do okazji. Podkreśla naturalne piękno. Trwały i estetyczny efekt. Wykonywany wysokiej jakości kosmetykami. Idealny na śluby i eventy. Konsultacja przed wykonaniem. Komfort podczas aplikacji. Gwarancja satysfakcji.</p>
+</div>
+
+</div>
+</section>
+
+<section id="pricing" class="pricing reveal">
+<div class="price-header">CENNIK</div>
+
+<div class="price-tabs">
+<button class="active" onclick="showPrice(0)">MANICURE</button>
+<button onclick="showPrice(1)">PEDICURE</button>
+<button onclick="showPrice(2)">TWARZ</button>
+<button onclick="showPrice(3)">MASAŻ</button>
+<button onclick="showPrice(4)">BRWI</button>
+<button onclick="showPrice(5)">MAKIJAŻ</button>
+</div>
+
+<div class="price-content active">
+<div class="price-row"><span>Manicure klasyczny</span><span>80 zł</span></div>
+<div class="price-row"><span>Manicure hybrydowy</span><span>120 zł</span></div>
+<div class="price-row"><span>French</span><span>140 zł</span></div>
+<div class="price-row"><span>SPA dłonie</span><span>150 zł</span></div>
+<div class="price-row"><span>Naprawa paznokcia</span><span>20 zł</span></div>
+<div class="price-row"><span>Usunięcie hybrydy</span><span>40 zł</span></div>
+<div class="price-row"><span>Ombre</span><span>160 zł</span></div>
+<div class="price-row"><span>Przedłużanie</span><span>180 zł</span></div>
+<div class="price-row"><span>Żel</span><span>170 zł</span></div>
+<div class="price-row"><span>Malowanie</span><span>30 zł</span></div>
+</div>
+
+<div class="price-content">
+<div class="price-row"><span>Pedicure klasyczny</span><span>120 zł</span></div>
+<div class="price-row"><span>Pedicure hybrydowy</span><span>160 zł</span></div>
+<div class="price-row"><span>SPA stopy</span><span>180 zł</span></div>
+<div class="price-row"><span>Pedicure leczniczy</span><span>200 zł</span></div>
+<div class="price-row"><span>Malowanie</span><span>40 zł</span></div>
+<div class="price-row"><span>Usunięcie hybrydy</span><span>50 zł</span></div>
+<div class="price-row"><span>Parafina</span><span>60 zł</span></div>
+<div class="price-row"><span>Peeling</span><span>50 zł</span></div>
+<div class="price-row"><span>Masaż stóp</span><span>70 zł</span></div>
+<div class="price-row"><span>Regeneracja</span><span>90 zł</span></div>
+</div>
+
+<div class="price-content">
+<div class="price-row"><span>Oczyszczanie</span><span>150 zł</span></div>
+<div class="price-row"><span>Peeling</span><span>120 zł</span></div>
+<div class="price-row"><span>Mikrodermabrazja</span><span>180 zł</span></div>
+<div class="price-row"><span>Maska</span><span>90 zł</span></div>
+<div class="price-row"><span>Nawilżanie</span><span>140 zł</span></div>
+<div class="price-row"><span>Anti-age</span><span>200 zł</span></div>
+<div class="price-row"><span>Kwasy</span><span>220 zł</span></div>
+<div class="price-row"><span>Mezoterapia</span><span>300 zł</span></div>
+<div class="price-row"><span>Lifting</span><span>250 zł</span></div>
+<div class="price-row"><span>Relaks</span><span>130 zł</span></div>
+</div>
+
+<div class="price-content">
+<div class="price-row"><span>Masaż relaksacyjny</span><span>150 zł</span></div>
+<div class="price-row"><span>Masaż klasyczny</span><span>140 zł</span></div>
+<div class="price-row"><span>Masaż pleców</span><span>120 zł</span></div>
+<div class="price-row"><span>Masaż twarzy</span><span>110 zł</span></div>
+<div class="price-row"><span>Aromaterapia</span><span>160 zł</span></div>
+<div class="price-row"><span>Gorące kamienie</span><span>190 zł</span></div>
+<div class="price-row"><span>Antystresowy</span><span>170 zł</span></div>
+<div class="price-row"><span>Relaks premium</span><span>220 zł</span></div>
+<div class="price-row"><span>Sportowy</span><span>180 zł</span></div>
+<div class="price-row"><span>Całościowy</span><span>260 zł</span></div>
+</div>
+
+<div class="price-content">
+<div class="price-row"><span>Regulacja</span><span>30 zł</span></div>
+<div class="price-row"><span>Henna</span><span>50 zł</span></div>
+<div class="price-row"><span>Henna pudrowa</span><span>80 zł</span></div>
+<div class="price-row"><span>Laminacja</span><span>120 zł</span></div>
+<div class="price-row"><span>Architektura</span><span>90 zł</span></div>
+<div class="price-row"><span>Koloryzacja</span><span>70 zł</span></div>
+<div class="price-row"><span>Stylizacja</span><span>60 zł</span></div>
+<div class="price-row"><span>Peeling</span><span>40 zł</span></div>
+<div class="price-row"><span>Regeneracja</span><span>100 zł</span></div>
+<div class="price-row"><span>Pakiet</span><span>150 zł</span></div>
+</div>
+
+<div class="price-content">
+<div class="price-row"><span>Makijaż dzienny</span><span>150 zł</span></div>
+<div class="price-row"><span>Makijaż wieczorowy</span><span>200 zł</span></div>
+<div class="price-row"><span>Makijaż ślubny</span><span>300 zł</span></div>
+<div class="price-row"><span>Próba</span><span>150 zł</span></div>
+<div class="price-row"><span>Indywidualny</span><span>220 zł</span></div>
+<div class="price-row"><span>Sesyjny</span><span>250 zł</span></div>
+<div class="price-row"><span>Korekta</span><span>80 zł</span></div>
+<div class="price-row"><span>Express</span><span>120 zł</span></div>
+<div class="price-row"><span>Pakiet</span><span>350 zł</span></div>
+<div class="price-row"><span>Premium</span><span>400 zł</span></div>
+</div>
+</section>
+
+<section id="contact" class="contact reveal">
+<h2>KONTAKT</h2>
+<div class="contact-icons">
+<a href="#"><i class="fab fa-facebook"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="mailto:kontakt@kacikurody.pl"><i class="fa fa-envelope"></i></a>
+<a href="tel:+48123456789"><i class="fa fa-phone"></i></a>
+</div>
+<div class="contact-info">
+Lublin, ul. Grażyny<br>
+Pon–Pt 9:00–18:00
+</div>
+<div class="map">
+<iframe src="https://maps.google.com/maps?q=Lublin%20Gra%C5%BCyny&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+</div>
+</section>
+
+<footer>
+© Copyright reserved by Kącik Urody ®
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById("mobileMenu").classList.toggle("open");
+}
+function scrollGallery(dir){
+  document.getElementById("gallery").scrollBy({left:dir*450,behavior:"smooth"});
+}
+function showPrice(i){
+  document.querySelectorAll(".price-content").forEach((c,idx)=>c.classList.toggle("active",idx===i));
+  document.querySelectorAll(".price-tabs button").forEach((b,idx)=>b.classList.toggle("active",idx===i));
+}
+const reveals=document.querySelectorAll(".reveal");
+function revealOnScroll(){
+  const h=window.innerHeight;
+  reveals.forEach(r=>{
+    if(r.getBoundingClientRect().top<h-80)r.classList.add("active");
+  });
+}
+window.addEventListener("scroll",revealOnScroll);
+revealOnScroll();
+</script>
+
+</body>
+</html>
+

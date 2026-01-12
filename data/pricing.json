@@ -1,0 +1,27 @@
+[
+  {
+    "title":"MANICURE",
+    "content":"<table><tr><td>Manicure klasyczny</td><td>80 zł</td></tr><tr><td>Manicure hybrydowy</td><td>120 zł</td></tr><tr><td>French</td><td>140 zł</td></tr><tr><td>Manicure japoński</td><td>130 zł</td></tr><tr><td>Manicure SPA</td><td>150 zł</td></tr><tr><td>Usunięcie hybrydy</td><td>30 zł</td></tr><tr><td>Uzupełnienie tipsów</td><td>180 zł</td></tr><tr><td>Manicure męski</td><td>70 zł</td></tr><tr><td>Manicure dla nastolatków</td><td>60 zł</td></tr><tr><td>Pielęgnacja skórek</td><td>40 zł</td></tr></table>"
+  },
+  {
+    "title":"PEDICURE",
+    "content":"<table><tr><td>Pedicure klasyczny</td><td>120 zł</td></tr><tr><td>Pedicure hybrydowy</td><td>160 zł</td></tr><tr><td>Pedicure SPA</td><td>180 zł</td></tr><tr><td>Pedicure leczniczy</td><td>200 zł</td></tr><tr><td>Usunięcie hybrydy</td><td>30 zł</td></tr><tr><td>Uzupełnienie tipsów</td><td>180 zł</td></tr><tr><td>Pedicure męski</td><td>100 zł</td></tr><tr><td>Pedicure dla nastolatków</td><td>80 zł</td></tr><tr><td>Pielęgnacja stóp</td><td>50 zł</td></tr><tr><td>Zabieg złuszczający</td><td>60 zł</td></tr></table>"
+  },
+  {
+    "title":"MASAŻ",
+    "content":"<table><tr><td>Masaż relaksacyjny 45 min</td><td>120 zł</td></tr><tr><td>Masaż relaksacyjny 60 min</td><td>150 zł</td></tr><tr><td>Masaż leczniczy 45 min</td><td>160 zł</td></tr><tr><td>Masaż leczniczy 60 min</td><td>200 zł</td></tr><tr><td>Masaż gorącymi kamieniami</td><td>220 zł</td></tr><tr><td>Masaż twarzy</td><td>80 zł</td></tr><tr><td>Masaż stóp</td><td>70 zł</td></tr><tr><td>Masaż pleców</td><td>90 zł</td></tr><tr><td>Masaż relaksacyjny dla par</td><td>250 zł</td></tr><tr><td>Masaż aromaterapeutyczny</td><td>180 zł</td></tr></table>"
+  },
+  {
+    "title":"TWARZ",
+    "content":"<table><tr><td>Oczyszczanie twarzy</td><td>100 zł</td></tr><tr><td>Peeling chemiczny</td><td>150 zł</td></tr><tr><td>Masaż twarzy</td><td>120 zł</td></tr><tr><td>Maska odżywcza</td><td>80 zł</td></tr><tr><td>Zabieg nawilżający</td><td>140 zł</td></tr><tr><td>Zabieg liftingujący</td><td>200 zł</td></tr><tr><td>Zabieg anti-age</td><td>220 zł</td></tr><tr><td>Zabieg rozświetlający</td><td>160 zł</td></tr><tr><td>Zabieg złuszczający</td><td>130 zł</td></tr><tr><td>Pakiet premium twarz</td><td>350 zł</td></tr></table>"
+  },
+  {
+    "title":"BRWI I RZĘSY",
+    "content":"<table><tr><td>Regulacja brwi</td><td>40 zł</td></tr><tr><td>Henna brwi</td><td>50 zł</td></tr><tr><td>Henna rzęs</td><td>50 zł</td></tr><tr><td>Lifting rzęs</td><td>120 zł</td></tr><tr><td>Botox rzęs</td><td>150 zł</td></tr><tr><td>Makijaż permanentny brwi</td><td>350 zł</td></tr><tr><td>Podkręcenie rzęs</td><td>100 zł</td></tr><tr><td>Przedłużanie rzęs 1:1</td><td>250 zł</td></tr><tr><td>Przedłużanie rzęs objętościowe</td><td>300 zł</td></tr><tr><td>Korekta rzęs</td><td>80 zł</td></tr></table>"
+  },
+  {
+    "title":"MAKIJAŻ",
+    "content":"<table><tr><td>Makijaż dzienny</td><td>120 zł</td></tr><tr><td>Makijaż wieczorowy</td><td>150 zł</td></tr><tr><td>Makijaż ślubny</td><td>300 zł</td></tr><tr><td>Makijaż próbny</td><td>180 zł</td></tr><tr><td>Makijaż fotograficzny</td><td>200 zł</td></tr><tr><td>Makijaż okolicznościowy</td><td>160 zł</td></tr><tr><td>Makijaż karnawałowy</td><td>180 zł</td></tr><tr><td>Makijaż sylwestrowy</td><td>200 zł</td></tr><tr><td>Makijaż biznesowy</td><td>130 zł</td></tr><tr><td>Makijaż artystyczny</td><td>250 zł</td></tr></table>"
+  }
+]
+
