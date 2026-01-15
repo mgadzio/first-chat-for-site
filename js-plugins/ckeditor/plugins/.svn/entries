@@ -1,0 +1,139 @@
+10
+
+dir
+1281
+svn+ssh://upaid_marek@test.upaid.pl/webroot/js/ckeditor/plugins
+svn+ssh://upaid_marek@test.upaid.pl
+
+
+
+2011-10-04T15:07:57.853729Z
+58
+upaid_svn
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+497b0576-abb4-11e0-bc37-1be77aa5b407
+
+pastetext
+dir
+
+pagebreak
+dir
+
+placeholder
+dir
+
+image
+dir
+
+styles
+dir
+
+docprops
+dir
+
+liststyle
+dir
+
+colordialog
+dir
+
+clipboard
+dir
+
+devtools
+dir
+
+autogrow
+dir
+
+tableresize
+dir
+
+uicolor
+dir
+
+find
+dir
+
+div
+dir
+
+scayt
+dir
+
+iframedialog
+dir
+
+ajax
+dir
+
+a11yhelp
+dir
+
+forms
+dir
+
+table
+dir
+
+pastefromword
+dir
+
+wsc
+dir
+
+link
+dir
+
+flash
+dir
+
+templates
+dir
+
+dialog
+dir
+
+xml
+dir
+
+smiley
+dir
+
+iframe
+dir
+
+adobeair
+dir
+
+stylesheetparser
+dir
+
+tabletools
+dir
+
+about
+dir
+
+specialchar
+dir
+
+showblocks
+dir
+
+bbcode
+dir
+

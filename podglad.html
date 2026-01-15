@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kącik Urody – Lublin</title>
+
+<link rel="icon" href="img/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ================= GLOBAL ================= */
+:root{
+  --purple:#c9b3ff;
+  --accent:#b58c7a;
+  --dark:#111;
+  --light:#f6f5f3;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Montserrat;color:#fff;background:#000}
+
+.section_title{
+  text-align:center;
+  font-size:3rem;
+  letter-spacing:11px;
+  margin-bottom:40px;
+}
+
+.section_padding{
+  padding:70px 6vw;
+}
+
+/* ================= BACKGROUND ================= */
+.bg{
+  position:fixed;inset:0;
+  background:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.65)),url("img/bg_kacik.jpg") center/cover;
+  z-index:-1;
+}
+
+/* ================= HEADER ================= */
+header{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  padding:30px 13vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:1500;
+  transition:.4s;
+}
+header.scrolled{background:rgba(0,0,0,.85);backdrop-filter:blur(8px)}
+.logo img{height:60px}
+
+nav a{
+  color:#fff;
+  margin-left:34px;
+  font-size:1.2rem;
+  letter-spacing:3px;
+  text-decoration:none;
+}
+nav a.active{color:var(--purple)}
+
+/* ===== MOBILE TOGGLE ===== */
+.menu-toggle{
+  position:fixed;
+  top:22px;
+  right:6vw;
+  font-size:34px;
+  cursor:pointer;
+  z-index:2000;
+  display:none;
+}
+
+/* ================= MOBILE MENU ================= */
+.mobile-menu{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.96);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:40px;
+  transform:translateY(-100%);
+  transition:.5s;
+  z-index:1800;
+}
+.mobile-menu.open{transform:translateY(0)}
+.mobile-menu a{
+  color:#fff;
+  font-size:1.5rem;
+  letter-spacing:5px;
+  text-decoration:none;
+}
+.close-menu{
+  position:absolute;
+  top:24px;
+  right:30px;
+  font-size:38px;
+  cursor:pointer;
+}
+
+/* ================= HERO ================= */
+.hero{
+  min-height:100vh;
+  padding-top:140px;
+  text-align:center;
+}
+.hero p{
+  max-width:900px;
+  margin:0 auto 60px;
+  line-height:1.9;
+}
+
+/* =========================
+   GALERIA
+========================= */
+
+.gallery-container {
+  max-width: 80%; /* pełna szerokość ekranu */
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* strzałki będą działać */
+  margin-top: 80px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-rows: repeat(1, 400px);
+  grid-auto-flow: column;
+  grid-auto-columns: 260px;  /* szerokość jednej kolumny */
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 40px;
+  justify-content: start; /* wszystkie kolumny po lewej */
+}
+
+
+/* STRZAŁKI */
+.gallery-arrow{
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  border:none;
+  width:180px;
+  height:46px;
+  border-radius:50%;
+  font-size:28px;
+  cursor:pointer;
+  z-index:5;
+}
+
+.gallery-arrow.left{ margin-right:10px; }
+.gallery-arrow.right{ margin-left:10px; }
+
+
+
+.gallery::-webkit-scrollbar{ display:none; }
+
+.gallery img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:14px;
+  cursor:pointer;
+  transition:.35s;
+}
+
+.gallery img:hover{
+  transform:scale(1.05);
+}
+
+/* LIGHTBOX */
+.gallery-lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+}
+
+.gallery-lightbox img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:12px;
+}
+
+.gallery-close{
+  position:absolute;
+  top:30px;
+  right:40px;
+  font-size:42px;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:700px){
+  .gallery{
+    grid-template-rows:repeat(2,140px);
+    grid-auto-columns:200px;
+  }
+}
+
+/* ===== HERO NEWS ===== */
+
+.hero-news{
+  max-width:900px;
+  margin:40px auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.hero-news-slider{
+  width:100%;
+  overflow:hidden;
+}
+
+.hero-news-item{
+  display:none;
+  align-items:center;
+  gap:20px;
+  background:rgba(255,255,255,.08);
+  padding:20px;
+  border-radius:18px;
+  color:#fff;
+}
+
+.hero-news-item.active{
+  display:flex;
+}
+
+/* ZDJĘCIE */
+.hero-news-item img{
+  width: 180px;
+  height: 180px;
+  object-fit:cover;
+  border-radius:14px;
+  flex-shrink:0;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+/* TREŚĆ HTML */
+.hero-news-content{
+  font-size:16px;
+  line-height:1.6;
+}
+
+.hero-news-content *{
+  color:#fff;
+}
+
+/* STRZAŁKI */
+.hero-news-arrow{
+  background:rgba(0,0,0,.5);
+  border:none;
+  color:#fff;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  font-size:26px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-news-arrow.left{ margin-right:10px; }
+.hero-news-arrow.right{ margin-left:10px; }
+
+/* KROPKI */
+.hero-news-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:14px;
+}
+
+.hero-news-dots span{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,.4);
+  cursor:pointer;
+}
+
+.hero-news-dots span.active{
+  background:#b88ad9;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .hero-news-item{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .hero-news-item img{
+    width:70px;
+    height:70px;
+  }
+}
+
+
+
+
+/* ================= BOOKSY ================= */
+.booksy{
+  background:var(--light);
+  color:#000;
+  padding:90px 6vw;
+  display: none;
+}
+.booksy-box{
+  max-width:900px;
+  margin:auto;
+  background:#fff;
+  border-radius:24px;
+  padding:50px 40px;
+  text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.12);
+}
+.booksy-box a{
+  display:inline-block;
+  margin-top:20px;
+  padding:14px 36px;
+  background:#000;
+  color:#fff;
+  border-radius:30px;
+  letter-spacing:3px;
+  text-decoration:none;
+}
+
+/* ================= SERVICES ================= */
+.services{
+  background:#fff;
+  color:#000;
+}
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:40px;
+}
+
+/* SERVICE CARD */
+.service-card{
+  position:relative;
+  cursor:pointer;
+}
+.service-card img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  border-radius:18px;
+}
+.service-card::after{
+  content:"ZOBACZ SZCZEGÓŁY";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  letter-spacing:4px;
+  border-radius:18px;
+}
+
+/* ===== SERVICE MODAL ===== */
+
+.service-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.service-modal.active{
+  display:flex;
+}
+
+/* OKNO MODALA */
+.service-modal-box{
+  background:#fff;
+  width:50%;
+  max-height:90vh;
+  overflow-y:auto;
+  border-radius:24px;
+  padding:30px;
+  position:relative;
+  animation:modalIn .35s ease;
+}
+
+/* ANIMACJA */
+@keyframes modalIn{
+  from{ transform:translateY(40px); opacity:0; }
+  to{ transform:translateY(0); opacity:1; }
+}
+
+/* PRZYCISK WRÓĆ */
+.service-modal-close{
+  background:none;
+  border:none;
+  font-size:15px;
+  cursor:pointer;
+  margin-bottom:20px;
+  font-weight:600;
+}
+
+/* ZDJĘCIE */
+.service-modal-box img{
+  width:100%;
+  border-radius:18px;
+  margin-bottom:30px;
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
+}
+
+/* TREŚĆ */
+.service-modal-content{
+  font-size:16px;
+  line-height:1.8;
+  color:#333;
+}
+
+/* RESET DLA HTML Z CMS */
+.service-modal-content *{
+  max-width:100%;
+  box-sizing:border-box;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .service-modal-box{
+    width:80%;
+    padding:24px 20px;
+  }
+}
+
+
+/* ===== SERVICE DETAILS PANEL ===== */
+
+.service-panel{
+  --panel-width: 70%; /* ⬅️ JEDYNE MIEJSCE ZMIANY */
+
+  display:none;
+  max-width:900px;
+  margin:60px auto;
+  padding:0 20px;
+  text-align:center;
+  box-sizing:border-box;
+}
+
+/* WSPÓLNY WRAPPER DLA ZDJĘCIA I TREŚCI */
+.service-panel .inner{
+  width:var(--panel-width);
+  max-width:520px;
+  margin:0 auto;
+}
+
+/* ZDJĘCIE */
+.service-panel img{
+  width:100%;
+  display:block;
+  margin:0 auto 30px;
+  border-radius:20px;
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
+}
+
+/* TREŚĆ */
+.service-panel .content{
+  width:100%;
+  font-size:16px;
+  line-height:1.8;
+  color:#333;
+  box-sizing:border-box;
+}
+
+/* 🔥 RESET DLA HTML Z CMS */
+.service-panel .content *{
+  max-width:100% !important;
+  box-sizing:border-box;
+}
+
+/* TEKST */
+.service-panel .content p{
+  margin:0 0 16px;
+}
+
+/* LISTY */
+.service-panel .content ul{
+  list-style:none;
+  padding:0;
+  margin:20px 0;
+}
+
+.service-panel .content li{
+  margin:10px 0;
+  padding-left:22px;
+  position:relative;
+}
+
+.service-panel .content li::before{
+  content:"•";
+  color:#b88ad9;
+  font-size:22px;
+  position:absolute;
+  left:0;
+  top:-1px;
+}
+
+/* TABELKI Z CMS */
+.service-panel .content table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+/* PRZYCISK POWRÓT */
+.service-panel .back{
+  margin-top:40px;
+  padding:14px 36px;
+  background:#000;
+  color:#fff;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:15px;
+  transition:.3s;
+}
+
+.service-panel .back:hover{
+  background:#333;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .service-panel{
+    --panel-width: 95%;
+  }
+}
+
+
+/* ================= PRICING ================= */
+.pricing{
+  background:var(--light);
+  color:#000;
+}
+.pricing-box{
+  max-width:900px;
+  margin:auto;
+}
+.pricing-tabs{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+  margin-bottom:40px;
+}
+.pricing-tabs button{
+  background:none;
+  border:none;
+  font-size:1.05rem;
+  letter-spacing:3px;
+  cursor:pointer;
+  padding:8px 12px;
+  transition:.3s;
+}
+.pricing-tabs button.active{
+  color:var(--accent);
+  font-weight:600;
+  border-bottom:2px solid var(--accent);
+}
+.pricing-content table{
+  width:100%;
+  border-collapse:collapse;
+  text-align:left;
+}
+.pricing-content td{
+  padding:12px 0;
+  font-size:1rem;
+}
+
+/* WYŚRODKOWANIE CAŁEJ SEKCJI */
+.pricing-content{
+  display:flex;
+  justify-content:center;
+}
+
+/* TABELA */
+.pricing-content table{
+  width:100%;
+  max-width:700px;
+  margin:auto;
+  border-collapse:collapse;
+}
+
+/* WIERSZ */
+.pricing-content tr{
+  position:relative;
+}
+
+/* KOMÓRKI */
+.pricing-content td{
+  padding:12px 0;
+  font-size:1.05rem;
+  vertical-align:middle;
+}
+
+/* NAZWA USŁUGI */
+.pricing-content td:first-child{
+  position:relative;
+  padding-right:20px;
+}
+
+/* CENA */
+.pricing-content td:last-child{
+  text-align:right;
+  white-space:nowrap;
+  padding-left:20px;
+}
+
+/* KROPKI MIĘDZY NAZWĄ A CENĄ */
+.pricing-content tr::after{
+  content:"................................................................................";
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  color:#cfcfcf;
+  font-size:.9rem;
+  z-index:0;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+/* TEKST NAD KROPKAMI */
+.pricing-content td{
+  background:var(--light);
+  position:relative;
+  z-index:1;
+}
+
+
+
+/* ================= CONTACT ================= */
+.contact{
+  background:#fff;
+  color:#000;
+  padding: 60px 0vw 0px;
+}
+.contact-card{
+  max-width:900px;
+  margin:0 auto 70px;
+  padding:50px 40px;
+  background:#f6f5f3;
+  border-radius:26px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:30px;
+}
+.contact-map iframe{
+  width:100%;
+  height:420px;
+  border:0;
+}
+
+.social-icons {
+  margin-top: 20px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.social-icons img {
+  width: 42px;          /* ⬅️ TU ZMIENIASZ ROZMIAR */
+  height: 42px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  filter: invert(0);    /* jeśli masz ciemne tło – zmień na invert(1) */
+}
+
+.social-icons a:hover img {
+  transform: scale(1.2);
+  opacity: 0.85;
+}
+
+
+/* MAPA */
+.contact-map iframe {
+  width: 100%;
+  height: 300px;
+  border: 0;
+  border-radius: 12px;
+}
+
+
+/* ================= BACK TOP ================= */
+.back-top{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:rgba(0,0,0,.7);
+  color:#fff;
+  border:none;
+  display:none;
+  cursor:pointer;
+  z-index:1200;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:900px){
+  nav{display:none}
+  .menu-toggle{display:block}
+  .services-grid,
+  .contact-card{grid-template-columns:1fr}
+  .gallery img{width:85vw}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<header id="header">
+  <div class="logo"><img src="img/logo.png"></div>
+  <nav>
+    <a href="#hero">O SALONIE</a>
+    <a href="#services">USŁUGI</a>
+    <a href="#pricing">CENNIK</a>
+    <a href="#contact">KONTAKT</a>
+  </nav>
+</header>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="close-menu" onclick="toggleMenu()">✕</div>
+  <a href="#hero" onclick="toggleMenu()">O SALONIE</a>
+  <a href="#services" onclick="toggleMenu()">USŁUGI</a>
+  <a href="#pricing" onclick="toggleMenu()">CENNIK</a>
+  <a href="#contact" onclick="toggleMenu()">KONTAKT</a>
+</div>
+
+<section class="hero" id="hero">
+  <p>Profesjonalny salon kosmetyczny w Lublinie. Kameralna atmosfera i indywidualne podejście.</p>
+  
+
+<div class="hero-news">
+
+  <button class="hero-news-arrow left" id="newsPrev">‹</button>
+
+  <div class="hero-news-slider" id="newsSlider"></div>
+
+  <button class="hero-news-arrow right" id="newsNext">›</button>
+
+</div>
+
+<div class="hero-news-dots" id="newsDots"></div>
+  
+  
+  <section class="gallery-section">
+  <div class="gallery-container">
+
+    <button class="gallery-arrow left" id="galleryLeft">‹</button>
+
+    <div class="gallery" id="gallery"></div>
+
+    <button class="gallery-arrow right" id="galleryRight">›</button>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="gallery-lightbox" id="galleryLightbox">
+  <span class="gallery-close" id="galleryClose">×</span>
+  <div id="galleryLightboxImg">
+</div>  
+  
+</section>
+
+
+
+
+<section class="booksy section_padding">
+  <div class="booksy-box">
+    <h3>ZAREZERWUJ WIZYTĘ NA BOOKSY</h3>
+    <a href="https://booksy.com/pl-pl/318129_kacik-urody-salon-kosmetyczny_salon-kosmetyczny_6832_lublin" target="_blank">REZERWUJ ONLINE</a>
+  </div>
+</section>
+
+<section class="services section_padding" id="services">
+  <h2 class="section_title">USŁUGI</h2>
+  <div id="servicesGrid" class="services-grid"></div>
+  <div id="servicePanel" class="service-panel"></div>
+  
+  <div class="service-modal" id="serviceModal">
+  <div class="service-modal-box">
+
+    <button class="service-modal-close" id="serviceModalClose">← Wróć</button>
+
+    <img id="serviceModalImg" />
+
+    <div class="service-modal-content" id="serviceModalContent"></div>
+
+  </div>
+</div>
+
+</section>
+
+<section class="pricing section_padding" id="pricing">
+  <h2 class="section_title">CENNIK</h2>
+
+  <div class="pricing-box">
+    <div class="pricing-tabs" id="pricingTabs"></div>
+    <div id="pricingContent" class="pricing-content"></div>
+  </div>
+</section>
+
+
+<section class="contact section_padding" id="contact">
+  <h2 class="section_title">KONTAKT</h2>
+
+  <div class="contact-card">
+    <div>📞 <a href="tel:+48123456789">+48 123 456 789</a></div>
+    <div>✉ kontakt@kacikurody.pl</div>
+    <div>
+      ⏰ <br>
+      Pn, Śr, Pt 11:00–19:00<br>
+      Wt, Czw 8:00–19:00<br>
+      Sb 8:00–14:00
+    </div>
+    <div>
+      📍 <a href="https://share.google/QHWWlU3BiYWpNGGP6" target="_blank">
+        Lublin, ul. Grażyny 18
+      </a>
+      
+        <div class="social-icons">
+      <a href="https://booksy.com/pl-pl/318129_kacik-urody-salon-kosmetyczny_salon-kosmetyczny_6832_lublin"
+         target="_blank" aria-label="Booksy">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Booksy">
+      </a>
+
+      <a href="https://www.facebook.com/search/top?q=k%C4%85cik%20urody-%20salon%20kosmetyczny"
+         target="_blank" aria-label="Facebook">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook">
+      </a>
+
+      <a href="https://www.instagram.com/TUTAJ_WSTAW_PROFIL"
+         target="_blank" aria-label="Instagram">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
+      </a>
+    </div>
+    
+    </div>
+  </div>
+  
+
+
+  <!-- MAPA -->
+  <div class="contact-map">
+    <a href="https://share.google/QHWWlU3BiYWpNGGP6" target="_blank">
+      <iframe
+        src="https://maps.google.com/maps?q=K%C4%85cik%20Urody%20Lublin%20Gra%C5%BCyny%2018&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </a>
+  </div>
+</section>
+
+
+<button class="back-top" id="backTop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+
+/* HEADER */
+const header=document.getElementById("header");
+const backTop=document.getElementById("backTop");
+window.addEventListener("scroll",()=>{
+  header.classList.toggle("scrolled",scrollY>40);
+  backTop.style.display=scrollY>400?"block":"none";
+});
+
+/* MOBILE MENU */
+function toggleMenu(){
+  document.getElementById("mobileMenu").classList.toggle("open");
+}
+
+/* GALLERY */
+const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("galleryLightbox");
+const lightboxImg = document.getElementById("galleryLightboxImg");
+const closeBtn = document.getElementById("galleryClose");
+
+/* WCZYTYWANIE Z JSON */
+fetch("data/gallery.json?nocache=" + new Date().getTime())
+  .then(res => res.json())
+  .then(images => {
+    images.forEach(html => {
+      //const img = document.createElement("img");
+      //img.src = src;
+      //img.loading = "lazy";
+      //img.addEventListener("click", () => openGallery(src));
+      //gallery.appendChild(img);
+      
+      const div = document.createElement("div");
+            console.log("before");
+      div.innerHTML = html;
+      console.log("added");
+      div.addEventListener("click", () => openGallery(html));
+      gallery.appendChild(div);
+    });
+  });
+
+/* POWIĘKSZENIE */
+function openGallery(html){
+  lightbox.style.display = "flex";
+  //lightboxImg.src = src;
+  lightboxImg.innerHTML = html;
+}
+
+/* ZAMKNIĘCIE */
+closeBtn.onclick = () => lightbox.style.display = "none";
+lightbox.onclick = e => {
+  if(e.target === lightbox) lightbox.style.display = "none";
+};
+
+/* STRZAŁKI */
+document.getElementById("galleryLeft").onclick = () => {
+  gallery.scrollLeft -= 320;
+};
+document.getElementById("galleryRight").onclick = () => {
+  gallery.scrollLeft += 320;
+};
+
+/* PRICING */
+fetch("data/pricing.json")
+  .then(r => r.json())
+  .then(data => {
+    const tabsEl = document.getElementById("pricingTabs");
+    const contentEl = document.getElementById("pricingContent");
+
+    data.forEach((cat, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = cat.title;
+      if (index === 0) btn.classList.add("active");
+      btn.onclick = () => {
+        // odznacz wszystkie
+        document.querySelectorAll(".pricing-tabs button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        contentEl.innerHTML = cat.content;
+      };
+      tabsEl.appendChild(btn);
+
+      // wstaw domyślną zawartość pierwszej kategorii
+      if (index === 0) {
+        contentEl.innerHTML = cat.content;
+      }
+    });
+  });
+  
+  
+
+
+/* SERVICES – PANEL */
+const modal = document.getElementById("serviceModal");
+const modalImg = document.getElementById("serviceModalImg");
+const modalContent = document.getElementById("serviceModalContent");
+const modalClose = document.getElementById("serviceModalClose");
+
+/* OTWARCIE MODALA */
+function openServiceModal(service){
+  modal.classList.add("active");
+  /*modalImg.src = service.img;*/
+  modalContent.innerHTML = service.description;
+
+  history.pushState({service:true}, "");
+  document.body.style.overflow = "hidden";
+}
+
+/* ZAMKNIĘCIE */
+function closeServiceModal(){
+  modal.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+/* PRZYCISK */
+modalClose.onclick = () => history.back();
+
+/* KLIKNIĘCIE W TŁO */
+modal.onclick = e => {
+  if(e.target === modal) history.back();
+};
+
+/* BACK BUTTON */
+window.addEventListener("popstate", e => {
+  if(modal.classList.contains("active")){
+    closeServiceModal();
+  }
+});
+
+
+
+
+fetch("data/services.json?nocache=" + new Date().getTime()).then(r=>r.json()).then(data=>{
+  data.forEach(s=>{
+    const card=document.createElement("div");
+    card.className="service-card";
+    card.innerHTML=`<img src="${s.img}">`;
+    
+    card.onclick = () => openServiceModal(s);
+    
+
+    servicesGrid.appendChild(card);
+  });
+});
+
+function closeService(){
+  servicePanel.style.display="none";
+  servicesGrid.style.display="grid";
+}
+
+
+/* NEWS */
+let newsIndex = 0;
+const slider = document.getElementById("newsSlider");
+const dotsContainer = document.getElementById("newsDots");
+
+fetch("data/news.json?cache=" + Date.now())
+  .then(res => res.json())
+  .then(news => {
+    news.forEach((item, i) => {
+      const div = document.createElement("div");
+      div.className = "hero-news-item" + (i === 0 ? " active" : "");
+      div.innerHTML = `
+        <img src="${item.url}">
+        <div class="hero-news-content">${item.description}</div>
+      `;
+      slider.appendChild(div);
+
+      const dot = document.createElement("span");
+      dot.className = i === 0 ? "active" : "";
+      dot.onclick = () => showNews(i);
+      dotsContainer.appendChild(dot);
+    });
+  });
+
+function showNews(i){
+  const items = document.querySelectorAll(".hero-news-item");
+  const dots = document.querySelectorAll(".hero-news-dots span");
+  items.forEach(el => el.classList.remove("active"));
+  dots.forEach(el => el.classList.remove("active"));
+  items[i].classList.add("active");
+  dots[i].classList.add("active");
+  newsIndex = i;
+}
+
+document.getElementById("newsPrev").onclick = () => {
+  const items = document.querySelectorAll(".hero-news-item");
+  showNews((newsIndex - 1 + items.length) % items.length);
+};
+
+document.getElementById("newsNext").onclick = () => {
+  const items = document.querySelectorAll(".hero-news-item");
+  showNews((newsIndex + 1) % items.length);
+};
+
+
+</script>
+
+</body>
+</html>
+

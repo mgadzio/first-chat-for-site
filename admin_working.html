@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>CMS – Panel administracyjny</title>
+
+
+<script src="js-plugins/ckeditor/ckeditor.js"></script>
+
+<style>
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+
+body{
+  margin:0;
+  background:#f4f4f6;
+  color:#222;
+}
+
+/* ===== LAYOUT ===== */
+.cms{
+  display:flex;
+  min-height:100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:260px;
+  background:#fff;
+  border-right:1px solid #ddd;
+  padding:20px;
+}
+
+.sidebar h1{
+  font-size:18px;
+  margin:0 0 20px;
+}
+
+.sidebar button{
+  width:100%;
+  padding:12px;
+  margin-bottom:8px;
+  border:none;
+  border-radius:8px;
+  background:#eee;
+  cursor:pointer;
+  text-align:left;
+  font-weight:bold;
+}
+
+.sidebar button.active{
+  background:#caa3ff;
+}
+
+/* ===== CONTENT ===== */
+.content{
+  flex:1;
+  padding:30px;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+h2{
+  margin-top:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* ===== ITEMS ===== */
+.item{
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+label{
+  font-size:13px;
+  margin-top:10px;
+  display:block;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin:6px 0 12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+/* ===== PREVIEW ===== */
+.preview{
+  max-width:300px;
+  max-height:300px;
+  margin:10px 0;
+  border-radius:12px;
+  object-fit:cover;
+  border:1px solid #ddd;
+}
+
+/* ===== BUTTONS ===== */
+button{
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background:#caa3ff;
+  font-weight:bold;
+}
+
+button.small{padding:4px 10px;font-size:12px}
+button.danger{background:#ff6b6b;color:#fff}
+button.gray{background:#ccc}
+
+.controls button{margin-right:6px}
+</style>
+</head>
+
+<body>
+
+<div class="cms">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <h1>CMS</h1>
+    <button onclick="showSection('hero')" class="active">Hero</button>
+    <button onclick="showSection('news')">News</button>
+    <button onclick="showSection('gallery')">Galeria</button>
+    <button onclick="showSection('services')">Usługi</button>
+    <button onclick="showSection('pricing')">Cennik</button>
+  </aside>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="content">
+
+    <!-- HERO -->
+    <div class="section active" id="hero">
+      <h2>Hero <button onclick="download('hero')">Pobierz JSON</button></h2>
+      <textarea class="ckeditor" id="heroEditor"></textarea>
+    </div>
+
+    <!-- NEWS -->
+    <div class="section" id="news">
+      <h2>News <button onclick="download('news')">Pobierz JSON</button></h2>
+      <div id="newsList"></div>
+      <button onclick="addNews()">+ Dodaj news</button>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="section" id="gallery">
+      <h2>Galeria <button onclick="download('gallery')">Pobierz JSON</button></h2>
+      <div id="galleryList"></div>
+      <button onclick="addGallery()">+ Dodaj zdjęcie</button>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="section" id="services">
+      <h2>Usługi <button onclick="download('services')">Pobierz JSON</button></h2>
+      <div id="servicesList"></div>
+      <button onclick="addService()">+ Dodaj usługę</button>
+    </div>
+
+    <!-- PRICING -->
+    <div class="section" id="pricing">
+      <h2>Cennik <button onclick="download('pricing')">Pobierz JSON</button></h2>
+      <div id="pricingList"></div>
+      <button onclick="addPricing()">+ Dodaj kategorię</button>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const state={hero:{},news:[],gallery:[],services:[],pricing:[]};
+
+/* ===== NAV ===== */
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+/* ===== LOAD ===== */
+["hero","news","gallery","services","pricing"].forEach(loadData);
+
+function loadData(name){
+  fetch(`data/${name}.json?c=${Date.now()}`)
+    .then(r=>r.json())
+    .then(d=>{state[name]=d;render(name);});
+}
+
+/* ===== HERO ===== */
+function renderHero(){
+  tinymce.init({
+    selector:'#heroEditor',
+    height:300,
+    plugins:'lists link table code',
+    toolbar:'undo redo | bold italic | h1 h2 h3 | bullist numlist | link table | code',
+    setup:ed=>{
+      ed.on('init',()=>ed.setContent(state.hero.text||""));
+      ed.on('change',()=>state.hero.text=ed.getContent());
+    }
+  });
+}
+
+/* ===== RENDER HELPERS ===== */
+function render(name){
+  if(name==="hero")renderHero();
+  if(name==="news")renderNews();
+  if(name==="gallery")renderGallery();
+  if(name==="services")renderServices();
+  if(name==="pricing")renderPricing();
+}
+
+/* ===== NEWS ===== */
+function renderNews(){
+  newsList.innerHTML="";
+  state.news.forEach((n,i)=>{
+    newsList.innerHTML+=`
+    <div class="item">
+      <label>URL zdjęcia</label>
+      <input value="${n.url}" oninput="state.news[${i}].url=this.value">
+      <img src="${n.url}" class="preview">
+
+      <label>Treść</label>
+      <textarea class="ckeditor" id="news_${i}">${n.description}</textarea>
+
+      <div class="controls">
+        <button class="small" onclick="move('news',${i},-1)">↑</button>
+        <button class="small" onclick="move('news',${i},1)">↓</button>
+        <button class="small danger" onclick="remove('news',${i})">Usuń</button>
+      </div>
+    </div>`;
+    initEditor(`news_${i}`,html=>state.news[i].description=html);
+  });
+}
+
+/* ===== GALLERY ===== */
+function renderGallery(){
+  galleryList.innerHTML="";
+  state.gallery.forEach((g,i)=>{
+    galleryList.innerHTML+=`
+    <div class="item">
+      <input value="${g}" oninput="state.gallery[${i}]=this.value">
+      <img src="${g}" class="preview">
+      <div class="controls">
+        <button class="small" onclick="move('gallery',${i},-1)">↑</button>
+        <button class="small" onclick="move('gallery',${i},1)">↓</button>
+        <button class="small danger" onclick="remove('gallery',${i})">Usuń</button>
+      </div>
+    </div>`;
+  });
+}
+
+/* ===== SERVICES ===== */
+function renderServices(){
+  servicesList.innerHTML="";
+  state.services.forEach((s,i)=>{
+    servicesList.innerHTML+=`
+    <div class="item">
+      <input value="${s.title}" oninput="state.services[${i}].title=this.value">
+      <input value="${s.img}" oninput="state.services[${i}].img=this.value">
+      <img src="${s.img}" class="preview">
+      <textarea class="ckeditor" id="srv_${i}">${s.description}</textarea>
+      <div class="controls">
+        <button class="small" onclick="move('services',${i},-1)">↑</button>
+        <button class="small" onclick="move('services',${i},1)">↓</button>
+        <button class="small danger" onclick="remove('services',${i})">Usuń</button>
+      </div>
+    </div>`;
+    initEditor(`srv_${i}`,html=>state.services[i].description=html);
+  });
+}
+
+/* ===== PRICING ===== */
+function renderPricing(){
+  pricingList.innerHTML="";
+  state.pricing.forEach((p,i)=>{
+    pricingList.innerHTML+=`
+    <div class="item">
+      <input value="${p.title}" oninput="state.pricing[${i}].title=this.value">
+      <textarea class="ckeditor" id="price_${i}">${p.content}</textarea>
+      <div class="controls">
+        <button class="small" onclick="move('pricing',${i},-1)">↑</button>
+        <button class="small" onclick="move('pricing',${i},1)">↓</button>
+        <button class="small danger" onclick="remove('pricing',${i})">Usuń</button>
+      </div>
+    </div>`;
+    initEditor(`price_${i}`,html=>state.pricing[i].content=html);
+  });
+}
+
+/* ===== EDITOR ===== */
+function initEditor(id,cb){
+  tinymce.init({
+    selector:'#'+id,
+    height:220,
+    plugins:'lists link table code',
+    toolbar:'undo redo | bold italic | h3 h4 | bullist numlist | link table | code',
+    setup:ed=>ed.on('change',()=>cb(ed.getContent()))
+  });
+}
+
+/* ===== HELPERS ===== */
+function move(s,i,d){
+  const a=state[s],j=i+d;
+  if(j<0||j>=a.length)return;
+  [a[i],a[j]]=[a[j],a[i]];
+  render(s);
+}
+
+function remove(s,i){
+  state[s].splice(i,1);
+  render(s);
+}
+
+function addNews(){state.news.push({url:"",description:""});renderNews();}
+function addGallery(){state.gallery.push("");renderGallery();}
+function addService(){state.services.push({title:"",img:"",description:""});renderServices();}
+function addPricing(){state.pricing.push({title:"",content:""});renderPricing();}
+
+/* ===== DOWNLOAD ===== */
+function download(name){
+  // HERO
+  if(name === "hero" && window.heroEditor){
+    heroEditor.getData().then(data => {
+      state.hero.text = data;
+      actuallyDownload(name);
+    });
+  } else {
+    // news
+    state.news.forEach((n,i)=>{
+      if(newsEditors[i]) n.description = newsEditors[i].getData();
+    });
+    // services
+    state.services.forEach((s,i)=>{
+      if(serviceEditors[i]) s.description = serviceEditors[i].getData();
+    });
+    // pricing
+    state.pricing.forEach((p,i)=>{
+      if(pricingEditors[i]) p.content = pricingEditors[i].getData();
+    });
+    actuallyDownload(name);
+  }
+}
+
+function actuallyDownload(name){
+  const data = name === "hero" ? {text: state.hero.text} : state[name];
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${name}.json`;
+  a.click();
+}
+
+</script>
+
+</body>
+</html>
+

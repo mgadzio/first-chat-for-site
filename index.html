@@ -741,9 +741,6 @@ nav a.active{color:var(--purple)}
   <div class="logo"><img src="img/logo.png"></div>
   <nav>
     <a href="#hero">O SALONIE</a>
-    <a href="#services">USŁUGI</a>
-    <a href="#pricing">CENNIK</a>
-    <a href="#contact">KONTAKT</a>
   </nav>
 </header>
 
@@ -752,85 +749,16 @@ nav a.active{color:var(--purple)}
 <div class="mobile-menu" id="mobileMenu">
   <div class="close-menu" onclick="toggleMenu()">✕</div>
   <a href="#hero" onclick="toggleMenu()">O SALONIE</a>
-  <a href="#services" onclick="toggleMenu()">USŁUGI</a>
-  <a href="#pricing" onclick="toggleMenu()">CENNIK</a>
-  <a href="#contact" onclick="toggleMenu()">KONTAKT</a>
 </div>
 
 <section class="hero" id="hero">
-  <p>Profesjonalny salon kosmetyczny w Lublinie. Kameralna atmosfera i indywidualne podejście.</p>
+  <p>Strona w budowie</p>
   
-
-<div class="hero-news">
-
-  <button class="hero-news-arrow left" id="newsPrev">‹</button>
-
-  <div class="hero-news-slider" id="newsSlider"></div>
-
-  <button class="hero-news-arrow right" id="newsNext">›</button>
-
-</div>
-
 <div class="hero-news-dots" id="newsDots"></div>
   
-  
-  <section class="gallery-section">
-  <div class="gallery-container">
-
-    <button class="gallery-arrow left" id="galleryLeft">‹</button>
-
-    <div class="gallery" id="gallery"></div>
-
-    <button class="gallery-arrow right" id="galleryRight">›</button>
-
-  </div>
-</section>
-
-<!-- LIGHTBOX -->
-<div class="gallery-lightbox" id="galleryLightbox">
-  <span class="gallery-close" id="galleryClose">×</span>
-  <img id="galleryLightboxImg">
-</div>  
-  
 </section>
 
 
-
-
-<section class="booksy section_padding">
-  <div class="booksy-box">
-    <h3>ZAREZERWUJ WIZYTĘ NA BOOKSY</h3>
-    <a href="https://booksy.com/pl-pl/318129_kacik-urody-salon-kosmetyczny_salon-kosmetyczny_6832_lublin" target="_blank">REZERWUJ ONLINE</a>
-  </div>
-</section>
-
-<section class="services section_padding" id="services">
-  <h2 class="section_title">USŁUGI</h2>
-  <div id="servicesGrid" class="services-grid"></div>
-  <div id="servicePanel" class="service-panel"></div>
-  
-  <div class="service-modal" id="serviceModal">
-  <div class="service-modal-box">
-
-    <button class="service-modal-close" id="serviceModalClose">← Wróć</button>
-
-    <img id="serviceModalImg" />
-
-    <div class="service-modal-content" id="serviceModalContent"></div>
-
-  </div>
-</div>
-
-</section>
-
-<section class="pricing section_padding" id="pricing">
-  <h2 class="section_title">CENNIK</h2>
-
-  <div class="pricing-box">
-    <div class="pricing-tabs" id="pricingTabs"></div>
-    <div id="pricingContent" class="pricing-content"></div>
-  </div>
-</section>
 
 
 <section class="contact section_padding" id="contact">
@@ -889,190 +817,8 @@ nav a.active{color:var(--purple)}
 
 <script>
 
-/* HEADER */
-const header=document.getElementById("header");
-const backTop=document.getElementById("backTop");
-window.addEventListener("scroll",()=>{
-  header.classList.toggle("scrolled",scrollY>40);
-  backTop.style.display=scrollY>400?"block":"none";
-});
 
-/* MOBILE MENU */
-function toggleMenu(){
-  document.getElementById("mobileMenu").classList.toggle("open");
-}
-
-/* GALLERY */
-const gallery = document.getElementById("gallery");
-const lightbox = document.getElementById("galleryLightbox");
-const lightboxImg = document.getElementById("galleryLightboxImg");
-const closeBtn = document.getElementById("galleryClose");
-
-/* WCZYTYWANIE Z JSON */
-fetch("data/gallery.json?nocache=" + new Date().getTime())
-  .then(res => res.json())
-  .then(images => {
-    images.forEach(src => {
-      const img = document.createElement("img");
-      img.src = src;
-      img.loading = "lazy";
-      img.addEventListener("click", () => openGallery(src));
-      gallery.appendChild(img);
-    });
-  });
-
-/* POWIĘKSZENIE */
-function openGallery(src){
-  lightbox.style.display = "flex";
-  lightboxImg.src = src;
-}
-
-/* ZAMKNIĘCIE */
-closeBtn.onclick = () => lightbox.style.display = "none";
-lightbox.onclick = e => {
-  if(e.target === lightbox) lightbox.style.display = "none";
-};
-
-/* STRZAŁKI */
-document.getElementById("galleryLeft").onclick = () => {
-  gallery.scrollLeft -= 320;
-};
-document.getElementById("galleryRight").onclick = () => {
-  gallery.scrollLeft += 320;
-};
-
-/* PRICING */
-fetch("data/pricing.json")
-  .then(r => r.json())
-  .then(data => {
-    const tabsEl = document.getElementById("pricingTabs");
-    const contentEl = document.getElementById("pricingContent");
-
-    data.forEach((cat, index) => {
-      const btn = document.createElement("button");
-      btn.textContent = cat.title;
-      if (index === 0) btn.classList.add("active");
-      btn.onclick = () => {
-        // odznacz wszystkie
-        document.querySelectorAll(".pricing-tabs button").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        contentEl.innerHTML = cat.content;
-      };
-      tabsEl.appendChild(btn);
-
-      // wstaw domyślną zawartość pierwszej kategorii
-      if (index === 0) {
-        contentEl.innerHTML = cat.content;
-      }
-    });
-  });
   
-  
-
-
-/* SERVICES – PANEL */
-const modal = document.getElementById("serviceModal");
-const modalImg = document.getElementById("serviceModalImg");
-const modalContent = document.getElementById("serviceModalContent");
-const modalClose = document.getElementById("serviceModalClose");
-
-/* OTWARCIE MODALA */
-function openServiceModal(service){
-  modal.classList.add("active");
-  /*modalImg.src = service.img;*/
-  modalContent.innerHTML = service.description;
-
-  history.pushState({service:true}, "");
-  document.body.style.overflow = "hidden";
-}
-
-/* ZAMKNIĘCIE */
-function closeServiceModal(){
-  modal.classList.remove("active");
-  document.body.style.overflow = "";
-}
-
-/* PRZYCISK */
-modalClose.onclick = () => history.back();
-
-/* KLIKNIĘCIE W TŁO */
-modal.onclick = e => {
-  if(e.target === modal) history.back();
-};
-
-/* BACK BUTTON */
-window.addEventListener("popstate", e => {
-  if(modal.classList.contains("active")){
-    closeServiceModal();
-  }
-});
-
-
-
-
-fetch("data/services.json").then(r=>r.json()).then(data=>{
-  data.forEach(s=>{
-    const card=document.createElement("div");
-    card.className="service-card";
-    card.innerHTML=`<img src="${s.img}">`;
-    
-    card.onclick = () => openServiceModal(s);
-    
-
-    servicesGrid.appendChild(card);
-  });
-});
-
-function closeService(){
-  servicePanel.style.display="none";
-  servicesGrid.style.display="grid";
-}
-
-
-/* NEWS */
-let newsIndex = 0;
-const slider = document.getElementById("newsSlider");
-const dotsContainer = document.getElementById("newsDots");
-
-fetch("data/news.json?cache=" + Date.now())
-  .then(res => res.json())
-  .then(news => {
-    news.forEach((item, i) => {
-      const div = document.createElement("div");
-      div.className = "hero-news-item" + (i === 0 ? " active" : "");
-      div.innerHTML = `
-        <img src="${item.url}">
-        <div class="hero-news-content">${item.description}</div>
-      `;
-      slider.appendChild(div);
-
-      const dot = document.createElement("span");
-      dot.className = i === 0 ? "active" : "";
-      dot.onclick = () => showNews(i);
-      dotsContainer.appendChild(dot);
-    });
-  });
-
-function showNews(i){
-  const items = document.querySelectorAll(".hero-news-item");
-  const dots = document.querySelectorAll(".hero-news-dots span");
-  items.forEach(el => el.classList.remove("active"));
-  dots.forEach(el => el.classList.remove("active"));
-  items[i].classList.add("active");
-  dots[i].classList.add("active");
-  newsIndex = i;
-}
-
-document.getElementById("newsPrev").onclick = () => {
-  const items = document.querySelectorAll(".hero-news-item");
-  showNews((newsIndex - 1 + items.length) % items.length);
-};
-
-document.getElementById("newsNext").onclick = () => {
-  const items = document.querySelectorAll(".hero-news-item");
-  showNews((newsIndex + 1) % items.length);
-};
-
 
 </script>
 

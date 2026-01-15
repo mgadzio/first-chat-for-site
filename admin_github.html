@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>CMS – Admin</title>
+
+<script src="js-plugins/ckeditor/ckeditor.js"></script>
+
+<style>
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:#f4f4f4}
+
+.cms{display:flex;min-height:100vh}
+
+.sidebar{
+  width:260px;
+  background:#fff;
+  padding:20px;
+  border-right:1px solid #ddd
+}
+
+.sidebar button{
+  width:100%;
+  padding:12px;
+  margin-bottom:8px;
+  border:none;
+  border-radius:8px;
+  background:#eee;
+  font-weight:bold;
+  cursor:pointer
+}
+.sidebar button.active{background:#caa3ff}
+
+.content{flex:1;padding:30px}
+
+.section{display:none}
+.section.active{display:block}
+
+.item{
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:20px
+}
+.item:nth-child(even){background:#f8f8f8}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:6px;
+  color:#555
+}
+
+textarea.ckeditor{width:100%;height:120px}
+
+.controls{margin-top:10px}
+.controls button{margin-right:6px}
+
+button{
+  padding:6px 12px;
+  border:none;
+  border-radius:8px;
+  background:#caa3ff;
+  font-weight:bold;
+  cursor:pointer
+}
+button.small{font-size:12px}
+button.danger{background:#ff6b6b;color:#fff}
+
+.form{
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:20px
+}
+</style>
+</head>
+<body>
+
+<div class="cms">
+
+<aside class="sidebar">
+  <button data-s="hero" class="active">Hero</button>
+  <button data-s="news">News</button>
+  <button data-s="gallery">Galeria</button>
+  <button data-s="services">Usługi</button>
+  <button data-s="pricing">Cennik</button>
+</aside>
+
+<main class="content">
+
+<div class="form">
+  <label>Access Token (GitHub)</label>
+  <input id="token" type="password" style="width:100%;padding:10px">
+
+  <label>Nazwa brancha</label>
+  <input id="branch" type="text" style="width:100%;padding:10px"
+    value="cms-2025-01-13-12-18">
+</div>
+
+<!-- HERO -->
+<div class="section active" id="hero">
+  <h2>Hero <button onclick="saveSection('hero')">Zapisz</button></h2>
+  <div class="item">
+    <label>Treść</label>
+    <textarea id="hero_text" class="ckeditor"></textarea>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div class="section" id="news">
+  <h2>News <button onclick="saveSection('news')">Zapisz</button></h2>
+  <div id="newsList"></div>
+  <button onclick="addNews()">+ Dodaj</button>
+</div>
+
+<!-- GALLERY -->
+<div class="section" id="gallery">
+  <h2>Galeria <button onclick="saveSection('gallery')">Zapisz</button></h2>
+  <div id="galleryList"></div>
+  <button onclick="addGallery()">+ Dodaj</button>
+</div>
+
+<!-- SERVICES -->
+<div class="section" id="services">
+  <h2>Usługi <button onclick="saveSection('services')">Zapisz</button></h2>
+  <div id="servicesList"></div>
+  <button onclick="addService()">+ Dodaj</button>
+</div>
+
+<!-- PRICING -->
+<div class="section" id="pricing">
+  <h2>Cennik <button onclick="saveSection('pricing')">Zapisz</button></h2>
+  <div id="pricingList"></div>
+  <button onclick="addPricing()">+ Dodaj</button>
+</div>
+
+</main>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const OWNER="mgadzio";
+const REPO="first-chat-for-site";
+const BASE="main";
+
+/* ================= STATE ================= */
+const state={hero:{},news:[],gallery:[],services:[],pricing:[]};
+
+/* ================= NAV ================= */
+document.querySelectorAll(".sidebar button").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".sidebar button").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    b.classList.add("active");
+    document.getElementById(b.dataset.s).classList.add("active");
+  };
+});
+
+/* ================= LOAD JSON ================= */
+["hero","news","gallery","services","pricing"].forEach(load);
+
+function load(name){
+  fetch(`data/${name}.json?c=${Date.now()}`)
+    .then(r=>r.json())
+    .then(d=>{
+      state[name]=d;
+      render(name);
+    });
+}
+
+/* ================= EDITOR ================= */
+function init(id,val){
+  if(CKEDITOR.instances[id]) return;
+  CKEDITOR.replace(id);
+  CKEDITOR.instances[id].setData(val||"");
+}
+function destroy(prefix){
+  for(const k in CKEDITOR.instances){
+    if(k.startsWith(prefix)) CKEDITOR.instances[k].destroy(true);
+  }
+}
+
+/* ================= HERO ================= */
+init("hero_text","");
+CKEDITOR.instances.hero_text.on("change",()=>{
+  state.hero.text=CKEDITOR.instances.hero_text.getData();
+});
+
+/* ================= RENDER ================= */
+function render(n){
+  if(n==="hero") CKEDITOR.instances.hero_text.setData(state.hero.text||"");
+  if(n==="news") renderNews();
+  if(n==="gallery") renderGallery();
+  if(n==="services") renderServices();
+  if(n==="pricing") renderPricing();
+}
+
+/* ================= SORT ================= */
+function move(section,i,dir){
+  const a=state[section],t=i+dir;
+  if(t<0||t>=a.length) return;
+  [a[i],a[t]]=[a[t],a[i]];
+  render(section);
+}
+
+/* ================= NEWS ================= */
+function renderNews(){
+  destroy("news_");
+  newsList.innerHTML="";
+  state.news.forEach((n,i)=>{
+    newsList.innerHTML+=`
+      <div class="item">
+        <label>URL</label>
+        <textarea id="news_url_${i}" class="ckeditor"></textarea>
+        <label>Treść</label>
+        <textarea id="news_desc_${i}" class="ckeditor"></textarea>
+        <div class="controls">
+          <button class="small" onclick="move('news',${i},-1)">↑</button>
+          <button class="small" onclick="move('news',${i},1)">↓</button>
+        </div>
+      </div>`;
+  });
+  state.news.forEach((n,i)=>{
+    init(`news_url_${i}`,n.url);
+    init(`news_desc_${i}`,n.description);
+  });
+}
+
+/* ================= GALLERY ================= */
+function renderGallery(){
+  destroy("gallery_");
+  galleryList.innerHTML="";
+  state.gallery.forEach((g,i)=>{
+    galleryList.innerHTML+=`
+      <div class="item">
+        <label>URL</label>
+        <textarea id="gallery_${i}" class="ckeditor"></textarea>
+        <div class="controls">
+          <button class="small" onclick="move('gallery',${i},-1)">↑</button>
+          <button class="small" onclick="move('gallery',${i},1)">↓</button>
+        </div>
+      </div>`;
+  });
+  state.gallery.forEach((g,i)=>init(`gallery_${i}`,g));
+}
+
+/* ================= SERVICES ================= */
+function renderServices(){
+  destroy("srv_");
+  servicesList.innerHTML="";
+  state.services.forEach((s,i)=>{
+    servicesList.innerHTML+=`
+      <div class="item">
+        <label>Tytuł</label>
+        <textarea id="srv_t_${i}" class="ckeditor"></textarea>
+        <label>URL</label>
+        <textarea id="srv_i_${i}" class="ckeditor"></textarea>
+        <label>Opis</label>
+        <textarea id="srv_d_${i}" class="ckeditor"></textarea>
+        <div class="controls">
+          <button class="small" onclick="move('services',${i},-1)">↑</button>
+          <button class="small" onclick="move('services',${i},1)">↓</button>
+        </div>
+      </div>`;
+  });
+  state.services.forEach((s,i)=>{
+    init(`srv_t_${i}`,s.title);
+    init(`srv_i_${i}`,s.img);
+    init(`srv_d_${i}`,s.description);
+  });
+}
+
+/* ================= PRICING ================= */
+function renderPricing(){
+  destroy("price_");
+  pricingList.innerHTML="";
+  state.pricing.forEach((p,i)=>{
+    pricingList.innerHTML+=`
+      <div class="item">
+        <label>Tytuł</label>
+        <textarea id="price_t_${i}" class="ckeditor"></textarea>
+        <label>Opis</label>
+        <textarea id="price_d_${i}" class="ckeditor"></textarea>
+        <div class="controls">
+          <button class="small" onclick="move('pricing',${i},-1)">↑</button>
+          <button class="small" onclick="move('pricing',${i},1)">↓</button>
+        </div>
+      </div>`;
+  });
+  state.pricing.forEach((p,i)=>{
+    init(`price_t_${i}`,p.title);
+    init(`price_d_${i}`,p.content);
+  });
+}
+
+
+async function saveSection(sectionName) {
+  try {
+    const token = document.getElementById("token").value.trim();
+    const branchName = document.getElementById("branch").value.trim();
+
+    if (!token || !branchName) {
+      alert("Podaj Access Token i nazwę brancha!");
+      return;
+    }
+    
+    // Pobierz SHA gałęzi bazowej
+    const mainRefResp = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/ref/heads/${BASE}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!mainRefResp.ok) {
+      const errText = await mainRefResp.text();
+      console.error("Błąd pobierania ref:", errText);
+      alert("Nie udało się pobrać SHA dla gałęzi bazowej. Sprawdź token i nazwę branch BASE.");
+      return;
+    }
+
+    const mainRefResponse = await mainRefResp.json();
+
+    if (!mainRefResponse.object || !mainRefResponse.object.sha) {
+      console.error("Niepoprawna odpowiedź GitHub:", mainRefResponse);
+      alert("Nie udało się pobrać SHA gałęzi bazowej. Sprawdź token i nazwę branch BASE.");
+      return;
+    }
+
+    const baseSha = mainRefResponse.object.sha;  // teraz mamy SHA
+
+
+    // 1️⃣ Zaktualizuj state z danych z CKEditor
+    if (sectionName === "hero") {
+      state.hero.text = CKEDITOR.instances.hero_text.getData();
+    } else if (sectionName === "news") {
+      state.news.forEach((n, i) => {
+        n.url = CKEDITOR.instances[`news_url_${i}`].getData();
+        n.description = CKEDITOR.instances[`news_desc_${i}`].getData();
+      });
+    } else if (sectionName === "gallery") {
+      state.gallery.forEach((g, i) => {
+        state.gallery[i] = CKEDITOR.instances[`gallery_${i}`].getData();
+      });
+    } else if (sectionName === "services") {
+      state.services.forEach((s, i) => {
+        s.title = CKEDITOR.instances[`srv_t_${i}`].getData();
+        s.img = CKEDITOR.instances[`srv_i_${i}`].getData();
+        s.description = CKEDITOR.instances[`srv_d_${i}`].getData();
+      });
+    } else if (sectionName === "pricing") {
+      state.pricing.forEach((p, i) => {
+        p.title = CKEDITOR.instances[`price_t_${i}`].getData();
+        p.content = CKEDITOR.instances[`price_d_${i}`].getData();
+      });
+    }
+
+    // 2️⃣ Przygotuj content JSON
+    const dataToSave = sectionName === "hero" ? { text: state.hero.text } : state[sectionName];
+    const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(dataToSave, null, 2))));
+    const path = `data/${sectionName}.json`;
+
+    // 3️⃣ Pobierz SHA main (docelowa baza dla nowego brancha)
+    const mainRef = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/ref/heads/${BASE}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(r => r.json());
+
+    // 4️⃣ Utwórz nowy branch
+    const createBranchResp = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/refs`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ref: `refs/heads/${branchName}`,
+        sha: baseSha
+      })
+    });
+    
+    if (!createBranchResp.ok) {
+      const err = await createBranchResp.text();
+      throw new Error("Nie udało się utworzyć brancha:\n" + err);
+    }
+
+    // 5️⃣ Pobierz SHA pliku w main
+    const fileData = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BASE}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(r => r.json());
+
+    // 6️⃣ Zaktualizuj plik w nowym branchu
+    await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: `CMS update: ${sectionName}`,
+        content: contentBase64,
+        sha: fileData.sha,
+        branch: branchName
+      })
+    });
+
+    // 7️⃣ Utwórz Pull Request
+    await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/pulls`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: `CMS: ${sectionName}`,
+        head: branchName,
+        base: BASE
+      })
+    });
+
+    alert("Pull Request utworzony pomyślnie!");
+  } catch (err) {
+    console.error(err);
+    alert("Wystąpił błąd podczas zapisywania PR. Sprawdź konsolę.");
+  }
+}
+
+</script>
+</body>
+</html>
+
