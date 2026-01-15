@@ -43,12 +43,13 @@ header{
   position:fixed;
   top:0;left:0;
   width:100%;
-  padding:30px 13vw;
+  padding:25px 13vw 15px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   z-index:1500;
   transition:.4s;
+  
 }
 header.scrolled{background:rgba(0,0,0,.85);backdrop-filter:blur(8px)}
 .logo img{height:60px}
@@ -56,7 +57,7 @@ header.scrolled{background:rgba(0,0,0,.85);backdrop-filter:blur(8px)}
 nav a{
   color:#fff;
   margin-left:34px;
-  font-size:1.2rem;
+  font-size:1.4rem;
   letter-spacing:3px;
   text-decoration:none;
 }
@@ -104,9 +105,11 @@ nav a.active{color:var(--purple)}
 
 /* ================= HERO ================= */
 .hero{
-  min-height:70vh;
-  padding-top:170px;
+  margin-top:220px;
   text-align:center;
+  height: auto;
+  padding-bottom: 110px;
+  font-size:20px;
 }
 .hero p{
   max-width:900px;
@@ -364,17 +367,41 @@ nav a.active{color:var(--purple)}
   object-fit:cover;
   border-radius:18px;
 }
-.service-card::after{
-  content:"ZOBACZ SZCZEGÓŁY";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  letter-spacing:4px;
-  border-radius:18px;
+
+.service-card:hover img {
+  transform: translateY(-1px); /* delikatny ruch */
+  filter: blur(1.5px) brightness(.65);
+}
+
+.service-card::after {
+  content: "ZOBACZ SZCZEGÓŁY";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.25);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* ⬇️ na dół */
+  padding-bottom: 30px;  /* odstęp od dołu */
+  letter-spacing: 4px;
+  border-radius: 18px;
+}
+
+.service-card-title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  font-size: 15px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+
+  color: #fff;
+  padding: 8px 14px;
+
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(6px); /* 💎 */
+  border-radius: 999px;
 }
 
 /* ===== SERVICE MODAL ===== */
@@ -671,6 +698,8 @@ nav a.active{color:var(--purple)}
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:30px;
+  line-height: 40px;
+  font-size: 20px;
 }
 .contact-map iframe{
   width:100%;
@@ -681,11 +710,14 @@ nav a.active{color:var(--purple)}
 .social-icons {
   margin-top: 20px;
   display: flex;
-  gap: 24px;
+  gap: 40px;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  grid-column: 1 / -1;
 }
 
-.social-icons img {
+.social-icons img, .social-icons a svg {
   width: 42px;          /* ⬅️ TU ZMIENIASZ ROZMIAR */
   height: 42px;
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -693,6 +725,13 @@ nav a.active{color:var(--purple)}
 }
 
 .social-icons a:hover img {
+  transform: scale(1.2);
+  opacity: 0.85;
+}
+
+
+
+.social-icons a:hover svg {
   transform: scale(1.2);
   opacity: 0.85;
 }
@@ -838,23 +877,27 @@ nav a.active{color:var(--purple)}
   <h2 class="section_title">KONTAKT</h2>
 
   <div class="contact-card">
-    <div>📞 <a href="tel:+48123456789">+48 123 456 789</a></div>
-    <div>✉ kontakt@kacikurody.pl</div>
+    <div>📞 <a href="tel:+48123456789">+48 723 314 415</a><br/>📍<a href="https://share.google/QHWWlU3BiYWpNGGP6" target="_blank">
+        Lublin, ul. Grażyny 18
+      </a>
+      </div>
+  
     <div>
       ⏰ <br>
       Pn, Śr, Pt 11:00–19:00<br>
       Wt, Czw 8:00–19:00<br>
       Sb 8:00–14:00
     </div>
-    <div>
-      📍 <a href="https://share.google/QHWWlU3BiYWpNGGP6" target="_blank">
-        Lublin, ul. Grażyny 18
-      </a>
+    
       
-        <div class="social-icons">
+      <div class="social-icons">
       <a href="https://booksy.com/pl-pl/318129_kacik-urody-salon-kosmetyczny_salon-kosmetyczny_6832_lublin"
          target="_blank" aria-label="Booksy">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Booksy">
+         
+     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#000000">
+    <circle cx="12" cy="12" r="12" fill="#000000"/>
+    <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" alignment-baseline="middle">B</text>
+  </svg>
       </a>
 
       <a href="https://www.facebook.com/search/top?q=k%C4%85cik%20urody-%20salon%20kosmetyczny"
@@ -862,13 +905,12 @@ nav a.active{color:var(--purple)}
         <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook">
       </a>
 
-      <a href="https://www.instagram.com/TUTAJ_WSTAW_PROFIL"
+      <a href="https://www.instagram.com/kacik_urody_lublin"
          target="_blank" aria-label="Instagram">
         <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
       </a>
     </div>
-    
-    </div>
+
   </div>
   
 
@@ -1023,7 +1065,7 @@ fetch("data/services.json?nocache=" + new Date().getTime()).then(r=>r.json()).th
   data.forEach(s=>{
     const card=document.createElement("div");
     card.className="service-card";
-    card.innerHTML=`<img src="${s.img}">`;
+    card.innerHTML=`<img src="${s.img}"/><span class="service-card-title">${s.title}</span>`;
     
     card.onclick = () => openServiceModal(s);
     
